@@ -1,0 +1,16 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #fff;
+  background-color: var(--bg-color);
+
+  --bg-color: #333333; 
+  --primary-color: #eeeeee;
+  --second-color: #397333;
+  --third-color: #4044b4;
+}
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
