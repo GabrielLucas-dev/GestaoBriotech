@@ -1,0 +1,70 @@
+.container-addTask{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-addTask{
+    width: 400px;
+    height: 380px;
+    background-color: #111111e4;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.inner-addTask h3{
+    text-align: center;
+    padding: 20px 0 0 0;
+}
+
+.addTask-form div{
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.addTask-form div label{
+    padding: 0 16px;
+    font-weight: 600;
+    padding-bottom: 2px;
+}
+.addTask-form div input,textarea{
+    margin: 0 16px;
+    padding: 6px 4px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+
+}
+
+.addTask-form textarea{
+    min-width: 92%;
+    max-width: 92%;
+    min-height: 60px;
+    max-height: 80px;
+}
+
+.addTask-button{
+    margin: 10px 16px;
+}
+
+.div-goBack{
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.3rem;
+    margin: 8px;
+}
+
+.goBack-button{
+    color: #fff;
+    text-decoration: none;
+}
+
+.goBack-button:hover{
+    color: #cccccc;
+    transition: 0.2s ease;
+}
+

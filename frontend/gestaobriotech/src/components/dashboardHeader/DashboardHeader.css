@@ -1,0 +1,48 @@
+.container-header{
+    width: 100%;
+    background-color: #111111e4;
+}
+
+.inner-header{
+    display: flex;
+    justify-content: space-around;
+}
+
+.div-img-logo2{
+    display: flex;
+    align-items: center;
+}
+
+.div-img-logo2 span{
+    color: var(--second-color);
+    font-weight: 100;
+}
+
+.div-img-logo2 img{
+    width: 120px
+}
+.div-img-logo2 h3{
+    font-size: 1.75rem;
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.div-button-add{
+    display: flex;
+    align-items: center;
+}
+.div-button-add .add-button{
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    border: none;
+    background-color: var(--second-color);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.div-button-add .add-button:hover{
+    background-color: #31632b;
+    transition: .2s ease;
+}

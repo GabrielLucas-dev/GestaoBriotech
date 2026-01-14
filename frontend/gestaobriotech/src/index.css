@@ -3,10 +3,12 @@
   color: #fff;
   background-color: var(--bg-color);
 
-  --bg-color: #333333; 
+  --bg-color: #353535; 
   --primary-color: #eeeeee;
   --second-color: #397333;
   --third-color: #4044b4;
+  --cards-color: #111111e4;
+;
 }
 
 *{
