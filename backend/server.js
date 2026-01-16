@@ -65,9 +65,14 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/atividades', (req, res) => {
-    const sql = "SELECT * FROM atividades";
+    const sql = `
+        SELECT a.id_atividade, a.titulo, a.descricao, a.prazo, a.esta_concluida, a.concluida_em, a.criada_em,
+        u.nome as criada_por
+        FROM atividades a
+        JOIN usuarios u ON u.id = a.criada_por
+    `;
     db.query(sql, (error, data) => {
-        if(error) return console.log(error);
+        if(error) return res.status(500).json(error)
         return res.json(data);    
     });
 });
@@ -75,7 +80,9 @@ app.get('/atividades', (req, res) => {
 app.post('/atividades', (req, res) => {
     const sql = "INSERT INTO atividades (titulo, descricao, prazo, criada_por) values (?, ?, ?, ?)";
     const {titulo, descricao, prazo} = req.body;
-    db.query(sql, [titulo, descricao, prazo], (error, data) => {
+    const usuarioId = req.usuario.id;      //vem do JWT agora
+
+    db.query(sql, [titulo, descricao, prazo, usuarioId], (error, data) => {
         if(error) return console.log(error);
         return res.json(data);
     });

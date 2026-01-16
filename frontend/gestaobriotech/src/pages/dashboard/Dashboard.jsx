@@ -99,10 +99,10 @@ function Dashboard() {
                 </select>
             </div>
     <div className='cards-flexbox'>
-        {Array.isArray(atividades) && atividades.map((data, atividade, index) => {
+        {Array.isArray(atividades) && atividades.map((data, atividade) => {
             
             return(
-                <div className='container-cards-atividades' key={index.id_atividade}>
+                <div className='container-cards-atividades' key={atividade.id_atividade}>
                     <div className='card-atividades'>
                         <div className='card-infos'>
                             <h3>{data.titulo}</h3>
