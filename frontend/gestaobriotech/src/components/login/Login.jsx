@@ -4,13 +4,12 @@ import simboloCatolica from "../../assets/simbolo-catolica.png";
 import simboloUcbBiotec from "../../assets/simbolo-ucb-biotec.png";
 import { useState } from "react";
 import axios from "axios";
-import Dashboard from "../../pages/dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [sucesso, setSucesso] = useState(false);
+//   const [sucesso, setSucesso] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,7 +22,12 @@ function Login() {
         .then((res) => {
             console.log(res.data)
 
-            setSucesso(true);
+            console.log('token', res.data.token)
+            localStorage.setItem("token", res.data.token)
+                
+            console.log("TOKEN SALVO:", localStorage.getItem('token'));
+
+            // setSucesso(true);
             navigate('/dashboard')          
         })
         .catch((error) => {

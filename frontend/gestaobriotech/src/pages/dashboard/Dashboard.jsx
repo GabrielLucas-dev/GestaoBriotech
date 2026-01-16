@@ -8,20 +8,33 @@ function Dashboard() {
 
     const [atividades, setAtividades] = useState([]);
     // const [estaConcluida, setEstaConcluida] = useState()
+    
+    //pega o token gerado pelo JWT no login (token expira em 1h)
+    const token = localStorage.getItem('token')
 
     useEffect(() => {
-        axios.get("http://localhost:3001/atividades")
+        axios.get("http://localhost:3001/atividades", {
+           //meu que autoriza que o axios a funcionar, empresta a chave do token a ele
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(res => {
             setAtividades(res.data)
             // setEstaConcluida(res.data)
         })
-        .catch(error => console.log("Erro ao pegar atividades", error))
-    
-    }, [])
+        .catch(error => console.error("Erro ao pegar atividades", error))
+    }, [token]);
 
     const handleRemove = async (id_atividade) => {
         try{
-        await axios.delete("http://localhost:3001/atividades/"+id_atividade)
+        await axios.delete("http://localhost:3001/atividades/"+id_atividade, {
+             headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        
 
         setAtividades(prev =>
             prev.filter(item => item.id_atividade !== id_atividade)
@@ -32,12 +45,42 @@ function Dashboard() {
     }
 
     const handleConclude =  async (id_atividade, esta_concluida) => {    
-        axios.put("http://localhost:3001/atividades/"+id_atividade, {esta_concluida})
+        axios.put("http://localhost:3001/atividades/"+id_atividade, {esta_concluida}, {
+             headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(res => console.log(res))
         .catch(error => console.log(error))
     }
 
     const atividadesAbertas = atividades.length;
+
+    // const handleAtividadesAbertas = () => {
+    //     axios.get('/atividades')
+    // }
+    // const handleAtividadesConcluidas = () => {
+    //     axios.get('/atividades_concluidas')
+    //     .then(res =>  console.log(res.data))
+    //     .catch(error => console.log(error))
+    // }
+
+    const [valorSelecionado, setValorSelecionado] = useState()
+    const handleSelecao = (e) => {
+        const novoValor = e.target.value;
+        setValorSelecionado(novoValor);
+        console.log(novoValor)
+
+    //         if(valorSelecionado === "atividades-abertas"){
+    //             axios.get('http://localhost:3001/atividades')
+    //             .then(res => console.log(res.data))
+    //             .catch(error => console.log(error))
+    //         } else if(valorSelecionado === "atividades-concluidas"){
+    //             axios.get('http://localhost:3001/atividades_concluidas')
+    //             .then(res => console.log(res))
+    //             .catch(error => console.log(error))
+            // }
+    }
 
     return(
         <>
@@ -49,10 +92,17 @@ function Dashboard() {
                 ? `${atividadesAbertas} atividade(s) em aberto!`
                 : "Nenhuma atividade em aberto..."
             }</h2>
+            <div className='div-select'>
+                <select name="select-atividades" value={valorSelecionado} onChange={handleSelecao}>
+                    <option value="atividades-abertas">Atividades em aberto</option>
+                    <option value="atividades-concluidas" >Atividades concluidas</option>
+                </select>
+            </div>
     <div className='cards-flexbox'>
-        {atividades.map((data, index) => {
+        {Array.isArray(atividades) && atividades.map((data, atividade, index) => {
+            
             return(
-                <div className='container-cards-atividades' key={index}>
+                <div className='container-cards-atividades' key={index.id_atividade}>
                     <div className='card-atividades'>
                         <div className='card-infos'>
                             <h3>{data.titulo}</h3>
@@ -79,7 +129,9 @@ function Dashboard() {
                     </div>
                 </div>
                 )
-            })}
+        })}
+        
+            
             </div>
 
         </section>

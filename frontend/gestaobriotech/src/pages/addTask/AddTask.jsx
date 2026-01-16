@@ -10,13 +10,18 @@ function AddTask() {
     const [descricao, setDescricao] = useState();
     const [prazo, setPrazo] = useState();
 
+    const token = localStorage.getItem("token")
+
     function handleSubmit() {
     
-
         if(!titulo) {
             alert("coloque um titulo na atividade!")
         }else{
-            axios.post('http://localhost:3001/atividades', {titulo, descricao, prazo})
+            axios.post('http://localhost:3001/atividades', {titulo, descricao, prazo}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(res => console.log(res.data))
             .catch(error => console.log("Erro POST forms atividade", error))
             alert("Atividade criada com sucesso, volte para o dashboard para conferir o quadro atualizado!")

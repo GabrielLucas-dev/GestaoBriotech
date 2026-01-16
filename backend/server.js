@@ -2,11 +2,16 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import dotenv from "dotenv";
+import jwt from 'jsonwebtoken'
+import auth from './auth.js'
 
 const app = express();
 app.use(express.json());
 app.use(cors()); //comunicação com backend
 dotenv.config();
+
+app.use('/atividades', auth)
+app.use('/atividades_concluidas', auth)
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -19,30 +24,6 @@ db.connect((error) => {
   if (error) return console.log("Erro ao se conectar com o BD");
   return console.log("Conexão com o BD feita com sucesso!");
 });
-
-// db.query("SELECT DATABASE()", (err, result) => {
-//     if(err) return console.log(err)
-//     return console.log("BANCO: ", result)
-// })
-// db.query("SHOW TABLES", (err, tables) => {
-//     console.log(tables);
-// });
-
-// db.query("SELECT COUNT(*) AS total FROM usuarios", (err, result) => {
-//     console.log("Total de usuários:", result[0].total);
-// });
-
-// app.post("/login", (req, res) => {
-//   const sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
-//   db.query(sql, [req.body.email, req.body.senha], (error, data) => {
-//     if (error) return res.status(500).json("login falhou!");
-//     if (data.length > 0) {
-//       return res.status(201).json("Login feito com sucesso");
-//     } else {
-//       return res.status(401).json("Usuário ou senha inválidos!");
-//     }
-//   });
-// });
 
 app.get("/login", (req, res) => {
   const sql = "SELECT * FROM usuarios";
@@ -59,15 +40,29 @@ app.post('/login', (req, res) => {
         if(error) return res.status(500).json(error)
 
         if(data.length > 0) {
-            res.json({
+            const usuario = data[0]
+            
+            const token = jwt.sign(
+                {
+                    id: usuario.id,
+                    email: usuario.email
+                },
+                process.env.JWT_SECRET,
+                {expiresIn: "1h"}
+            );
+            return res.json({
                 sucess: true,
-                usuario: data[0]
-            }) 
+                token
+            });
+
         } else{
-            return res.status(402).json('erro na autenticação', { sucess: false })
-        }
-    })
-})
+            return res.status(401).json({
+                sucess: false,
+                message: 'email ou senha inválidos!' 
+            })
+        };
+    });
+});
 
 app.get('/atividades', (req, res) => {
     const sql = "SELECT * FROM atividades";
@@ -78,7 +73,7 @@ app.get('/atividades', (req, res) => {
 });
 
 app.post('/atividades', (req, res) => {
-    const sql = "INSERT INTO atividades (titulo, descricao, prazo, criada_por) values (?, ?, ?, 2)";
+    const sql = "INSERT INTO atividades (titulo, descricao, prazo, criada_por) values (?, ?, ?, ?)";
     const {titulo, descricao, prazo} = req.body;
     db.query(sql, [titulo, descricao, prazo], (error, data) => {
         if(error) return console.log(error);
@@ -104,6 +99,14 @@ app.put('/atividades/:id_atividade', (req, res) => {
     db.query(sql, [id], (error, data) => {
         if(error) return console.log("Erro ao atualizar atividade", error)
         return res.status(200).json(data)
+    })
+})
+
+app.get('/atividades_concluidas', (req, res) => {
+    const sql = "SELECT * FROM atividades WHERE esta_concluida = true"
+    db.query(sql, (error, data) => {
+        if(error) return res.status(500).json(error)
+        return res.status(201).json(data)
     })
 })
 
