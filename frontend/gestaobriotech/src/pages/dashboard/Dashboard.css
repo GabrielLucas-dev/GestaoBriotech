@@ -39,7 +39,8 @@
 }
 
 .card-atividades h4{
-    padding: 8px 0;
+    padding: 4px 0 6px 0;
+    font-weight: 500;
 }
 
 .card-atividades p{
@@ -60,7 +61,7 @@
 .card-actions .remover{
     background-color: rgb(189, 19, 19);
     border: none;
-    padding: 0 3.2rem;
+    padding: 0 3.3rem;
 }
 .card-actions .remover:hover{
     background-color: rgb(164, 24, 24);
@@ -68,13 +69,13 @@
 }
 
 .card-actions .concluir{
-    padding: 0 3.2rem;
+    padding: 0 3.3rem;
 }
 
 .div-select{
     width: 100%;
     text-align: center;    
-    padding: 12px 0;
+    padding: 1px 0;
 }
 .div-select select{
     padding: 4px;
@@ -92,4 +93,16 @@
 }
 .div-select option{
     color: #000;
+}
+
+.descricao{
+    text-align: justify;
+}
+
+.p-title{
+    padding: 1px 4px 3px 4px;
+    margin: 0 2px 0 0;
+    border-radius: 6px;
+    background-color: #3b3b3bc6;
+    font-weight: 100;
 }

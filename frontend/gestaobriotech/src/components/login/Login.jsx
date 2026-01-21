@@ -13,6 +13,8 @@ function Login() {
 
   const navigate = useNavigate();
 
+  // const [token, setToken] = useState()
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -22,11 +24,13 @@ function Login() {
         .then((res) => {
             console.log(res.data)
 
-            console.log('token', res.data.token)
             localStorage.setItem("token", res.data.token)
                 
-            console.log("TOKEN SALVO:", localStorage.getItem('token'));
+            // TESTE
+            // setToken("token", res.data.token)
+            // console.log("ESTE É O FUCKING TOKEN: ", token)
 
+            console.log("TOKEN SALVO:", localStorage.getItem('token'));
             // setSucesso(true);
             navigate('/dashboard')          
         })

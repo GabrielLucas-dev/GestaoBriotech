@@ -10,6 +10,7 @@ function Dashboard() {
     // const [estaConcluida, setEstaConcluida] = useState()
     
     //pega o token gerado pelo JWT no login (token expira em 1h)
+
     const token = localStorage.getItem('token')
 
     useEffect(() => {
@@ -22,8 +23,11 @@ function Dashboard() {
         .then(res => {
             setAtividades(res.data)
             // setEstaConcluida(res.data)
+                
         })
-        .catch(error => console.error("Erro ao pegar atividades", error))
+        .catch(error => {
+            console.error("Erro ao pegar atividades ou token expirado!", error)
+        })
     }, [token]);
 
     const handleRemove = async (id_atividade) => {
@@ -33,8 +37,6 @@ function Dashboard() {
                 Authorization: `Bearer ${token}`
             }
         })
-
-        
 
         setAtividades(prev =>
             prev.filter(item => item.id_atividade !== id_atividade)
@@ -55,15 +57,6 @@ function Dashboard() {
     }
 
     const atividadesAbertas = atividades.length;
-
-    // const handleAtividadesAbertas = () => {
-    //     axios.get('/atividades')
-    // }
-    // const handleAtividadesConcluidas = () => {
-    //     axios.get('/atividades_concluidas')
-    //     .then(res =>  console.log(res.data))
-    //     .catch(error => console.log(error))
-    // }
 
     const [valorSelecionado, setValorSelecionado] = useState()
     const handleSelecao = (e) => {
@@ -106,10 +99,10 @@ function Dashboard() {
                     <div className='card-atividades'>
                         <div className='card-infos'>
                             <h3>{data.titulo}</h3>
-                            <p className='descricao'><strong>Descrição:</strong> {data.descricao} </p>
-                            <p><strong>Criada em:</strong> {data.criada_em}</p>
-                            <p><strong>Prazo:</strong> {data.prazo}</p>
-                            <p><strong>Criada por:</strong> {data.criada_por}</p>
+                            <h4 className='descricao'> {data.descricao} </h4>
+                            <p><span className='p-title'>Criada em:</span> {data.criada_em}</p>
+                            <p><span className='p-title'>Prazo:</span> {data.prazo}</p>
+                            <p><span className='p-title'>Criada por:</span> {data.criada_por}</p>
                         </div>
                         <div>
                             {/*

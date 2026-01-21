@@ -35,7 +35,7 @@ app.get("/login", (req, res) => {
 
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?"
-    const { email, senha } = req.body
+    const { email, senha } = req.body  
     db.query(sql, [email, senha], (error, data) => {
         if(error) return res.status(500).json(error)
 
@@ -66,7 +66,7 @@ app.post('/login', (req, res) => {
 
 app.get('/atividades', (req, res) => {
     const sql = `
-        SELECT a.id_atividade, a.titulo, a.descricao, a.prazo, a.esta_concluida, a.concluida_em, a.criada_em,
+        SELECT a.id_atividade, a.titulo, a.descricao, a.prazo, a.esta_concluida, a.concluida_em, DATE_FORMAT(a.criada_em, "%d/%m/%Y %H:%i") as criada_em,
         u.nome as criada_por
         FROM atividades a
         JOIN usuarios u ON u.id = a.criada_por
